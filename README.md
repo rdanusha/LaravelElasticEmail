@@ -1,5 +1,3 @@
-# LaravelElasticEmail
-
 # Laravel Elastic Email #
 
 A Laravel wrapper for Elastic Email
