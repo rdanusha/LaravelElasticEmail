@@ -17,10 +17,5 @@
     "psr-4": {
       "Rdanusha\\LaravelElasticEmail\\": "src/"
     }
-  },
-  "minimum-stability": "stable",
-  "extra": {
-    "provider": "LaravelElasticEmailServiceProvider"
   }
-
 }
