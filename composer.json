@@ -19,10 +19,7 @@
   },
   "minimum-stability": "stable",
   "extra": {
-    "providers": {
-                "Rdanusha\\LaravelElasticEmail\\LaravelElasticEmailServiceProvider"
-    }
- }
- 
-  
+    "provider": "LaravelElasticEmailServiceProvider"
+  }
+
 }
