@@ -12,10 +12,10 @@
     "require": {
 		"laravel/framework": "5.1.x|5.2.x|5.3.x|5.4.x"
 	},
-	"autoload": {
-		"psr-4": {
-			"Rdanusha\\LaravelElasticEmail\\": "src/"
+   "autoload": {
+	"psr-4": {
+   		"Rdanusha\\LaravelElasticEmail\\": "src/"
 		}
-	},
-	"minimum-stability": "stable"
+   },
+   "minimum-stability": "stable"
 }
