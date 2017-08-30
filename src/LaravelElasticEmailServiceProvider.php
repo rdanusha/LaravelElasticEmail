@@ -4,7 +4,7 @@ namespace Rdanusha\LaravelElasticEmail;
 
 use Illuminate\Mail\MailServiceProvider as LaravelMailServiceProvider;
 
-class LaravelElasticEmailServiceProvider extends ServiceProvider
+class LaravelElasticEmailServiceProvider extends LaravelMailServiceProvider
 {
     /**
      * Register the Swift Transport instance.
