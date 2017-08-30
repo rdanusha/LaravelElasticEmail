@@ -7,7 +7,7 @@ A Laravel wrapper for Elastic Email
 Add Laravel Elastic Email as a dependency using the composer CLI:
 
 ```bash
-composer require rdanusha/LaravelElasticEmail
+composer require rdanusha/laravel-elastic-email
 ```
 
 Next, add the following to your config/services.php and add the correct values to your .env file
