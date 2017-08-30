@@ -1,7 +1,7 @@
 {
   "name": "rdanusha/laravel-elastic-email",
   "description": "Package for send emails with attachments via elastic email driver",
-  "type": "composer-plugin",
+  "type": "library",
   "license": "MIT",
   "authors": [
     {
@@ -17,8 +17,6 @@
       "Rdanusha\\LaravelElasticEmail\\": "src/"
     }
   },
-  "minimum-stability": "stable",
-   "extra": {
-        "class": "Rdanusha\\LaravelElasticEmail\\"
-    }
+  "minimum-stability": "stable"
+  
 }
