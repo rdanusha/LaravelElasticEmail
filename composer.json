@@ -1,6 +1,8 @@
 {
   "name": "rdanusha/laravel-elastic-email",
   "description": "Package for send emails with attachments via elastic email driver",
+  "type": "library",
+  "keywords": ["elasticemail", "email", "laravel"],
   "license": "MIT",
   "authors": [
     {
