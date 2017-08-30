@@ -1,8 +1,11 @@
 {
   "name": "rdanusha/laravel-elastic-email",
   "description": "Package for send emails with attachments via elastic email driver",
-  "type": "library",
-  "keywords": ["elasticemail", "email", "laravel"],
+  "keywords": [
+    "laravel",
+    "email",
+    "elastic email"
+  ],
   "license": "MIT",
   "authors": [
     {
@@ -10,12 +13,16 @@
       "email": "rdanusha@gmail.com"
     }
   ],
+  "support": {
+    "email": "rdanusha@gmail.com"
+  },
   "require": {
-    "laravel/framework": "5.1.x|5.2.x|5.3.x|5.4.x"
+    "laravel/framework": "5.4.x"
   },
   "autoload": {
     "psr-4": {
       "Rdanusha\\LaravelElasticEmail\\": "src/"
     }
-  }
+  },
+  "minimum-stability": "stable"
 }
