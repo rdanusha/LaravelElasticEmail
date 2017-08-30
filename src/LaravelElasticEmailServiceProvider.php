@@ -2,7 +2,7 @@
 
 namespace Rdanusha\LaravelElasticEmail;
 
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Mail\MailServiceProvider as LaravelMailServiceProvider;
 
 class LaravelElasticEmailServiceProvider extends ServiceProvider
 {
