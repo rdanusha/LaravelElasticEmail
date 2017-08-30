@@ -17,5 +17,5 @@
       "Rdanusha\\LaravelElasticEmail\\": "src/"
     }
   },
-  "minimum-stability": "stable"
+  "minimum-stability": "dev"
 }
