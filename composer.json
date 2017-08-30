@@ -1,0 +1,14 @@
+{
+    "name": "rdanusha/laravel-elastic-email",
+    "description": "Package for send emails with attachments via elastic email driver",
+    "type": "composer-plugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Anusha Priyamal",
+            "email": "rdanusha@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
