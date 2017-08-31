@@ -6,7 +6,7 @@ Can send emails with multiple attachments
 
 ### Installation ###
 
-* #tep 1
+* Step 1
 
 Install package via composer 
 
