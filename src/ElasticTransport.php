@@ -4,6 +4,7 @@ namespace Rdanusha\LaravelElasticEmail;
 
 use GuzzleHttp\ClientInterface;
 use Illuminate\Mail\Transport\Transport;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Swift_Mime_Message;
 
@@ -184,7 +185,9 @@ class ElasticTransport extends Transport
     {
         for ($i = 1; $i <= $count; $i++) {
             $file = $data['file_' . $i]->name;
-            unlink($file);
+            if (File::exists($file)) {
+                File::delete($file);
+            }
         }
     }
 }
