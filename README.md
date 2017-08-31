@@ -1,24 +1,39 @@
-# Laravel Elastic Email #
+# Laravel Elastic Email#
 
 A Laravel wrapper for Elastic Email
 
+Can send emails with multiple attachments
+
 ### Installation ###
 
-Add Laravel Elastic Email as a dependency using the composer CLI:
+#Step 1
+Install package via composer 
 
 ```bash
 composer require rdanusha/laravel-elastic-email
 ```
+#Step 2
+Add this code to **.env file**
+```
+ELASTIC_ACCOUNT=<Add your account>
+ELASTIC_KEY=<Add your key>
+```
+#Step 3
+Update **MAIL_DRIVER** value as 'elastic_email' in your **.env file**
+```
+MAIL_DRIVER=elastic_email
+```
 
-Next, add the following to your config/services.php and add the correct values to your .env file
-```php
+#Step 4
+Add this code to your **config/services.php** file
+```
 'elastic_email' => [
 	'key' => env('ELASTIC_KEY'),
 	'account' => env('ELASTIC_ACCOUNT')
 ]
 ```
-
-Next, in config/app.php, comment out Laravel's default MailServiceProvider and add the following
+#Step 5
+Open **config/app.php** file and go to providers array, Then comment out Laravel's default MailServiceProvider and add the following
 ```php
 'providers' => [
     /*
@@ -31,8 +46,13 @@ Next, in config/app.php, comment out Laravel's default MailServiceProvider and a
 ],
 ```
 
-Finally switch your default mail provider to elastic email in your .env file by setting MAIL_DRIVER=elastic_email
-
 ### Usage ###
 
 This package works exactly like Laravel's native mailers. Refer to Laravel's Mail documentation.
+
+https://laravel.com/docs/5.5/mail
+
+### Code Example ###
+```php
+Mail::to($request->user())->send(new OrderShipped($order));
+```
