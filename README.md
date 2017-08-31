@@ -6,25 +6,29 @@ Can send emails with multiple attachments
 
 ### Installation ###
 
-#Step 1
+* #Step 1
+
 Install package via composer 
 
 ```bash
 composer require rdanusha/laravel-elastic-email
 ```
-#Step 2
+* #Step 2
+
 Add this code to **.env file**
 ```
 ELASTIC_ACCOUNT=<Add your account>
 ELASTIC_KEY=<Add your key>
 ```
-#Step 3
+* #Step 3
+
 Update **MAIL_DRIVER** value as 'elastic_email' in your **.env file**
 ```
 MAIL_DRIVER=elastic_email
 ```
 
-#Step 4
+* #Step 4
+
 Add this code to your **config/services.php** file
 ```
 'elastic_email' => [
@@ -32,7 +36,8 @@ Add this code to your **config/services.php** file
 	'account' => env('ELASTIC_ACCOUNT')
 ]
 ```
-#Step 5
+* #Step 5
+
 Open **config/app.php** file and go to providers array, Then comment out Laravel's default MailServiceProvider and add the following
 ```php
 'providers' => [
