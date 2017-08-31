@@ -120,7 +120,7 @@ class ElasticTransport extends Transport
                 $attachedFile = $attachment->getBody();
                 $fileName = $attachment->getFilename();
                 $ext = pathinfo($fileName, PATHINFO_EXTENSION);
-                $tempName = uniqid().'.' . $ext;
+                $tempName = uniqid() . '.' . $ext;
                 Storage::put($tempName, $attachedFile);
                 $type = $attachment->getContentType();
                 $attachedFilePath = storage_path('app\\' . $tempName);
@@ -130,46 +130,6 @@ class ElasticTransport extends Transport
         }
 
         return $data;
-    }
-
-
-    /**
-     * Upload attachment to elastic mail
-     * @param $filepath
-     * @param $filename
-     * @return array
-     */
-    function uploadAttachment($filepath, $filename)
-    {
-
-        $data = http_build_query(array('username' => env('ELASTIC_ACCOUNT'), 'api_key' => env('ELASTIC_KEY'), 'file' => $filename));
-        $file = file_get_contents($filepath);
-        $result = '';
-
-        $fp = fsockopen('ssl://api.elasticemail.com', 443, $errno, $errstr, 30);
-
-        if ($fp) {
-            fputs($fp, "PUT /attachments/upload?" . $data . " HTTP/1.1\r\n");
-            fputs($fp, "Host: api.elasticemail.com\r\n");
-            fputs($fp, "Content-type: application/x-www-form-urlencoded\r\n");
-            fputs($fp, "Content-length: " . strlen($file) . "\r\n");
-            fputs($fp, "Connection: close\r\n\r\n");
-            fputs($fp, $file);
-            while (!feof($fp)) {
-                $result .= fgets($fp, 128);
-            }
-        } else {
-            return array(
-                'status' => false,
-                'error' => $errstr . '(' . $errno . ')',
-                'result' => $result);
-        }
-        fclose($fp);
-        $result = explode("\r\n\r\n", $result, 2);
-        return array(
-            'status' => true,
-            'attachId' => isset($result[1]) ? $result[1] : ''
-        );
     }
 
 
@@ -215,6 +175,11 @@ class ElasticTransport extends Transport
         return '';
     }
 
+    /**
+     * delete temp attachment files
+     * @param $data
+     * @param $count
+     */
     protected function deleteTempAttachmentFiles($data, $count)
     {
         for ($i = 1; $i <= $count; $i++) {
