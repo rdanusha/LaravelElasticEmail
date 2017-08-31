@@ -4,7 +4,7 @@ namespace Rdanusha\LaravelElasticEmail;
 
 use GuzzleHttp\ClientInterface;
 use Illuminate\Mail\Transport\Transport;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Swift_Mime_Message;
 
 class ElasticTransport extends Transport
@@ -59,6 +59,7 @@ class ElasticTransport extends Transport
      */
     public function send(Swift_Mime_Message $message, &$failedRecipients = null)
     {
+
         $this->beforeSendPerformed($message);
 
         $data = [
@@ -79,14 +80,16 @@ class ElasticTransport extends Transport
         ];
 
         $attachments = $message->getChildren();
-        $newData = $this->attach($attachments, $data);
-
+        $count = count($attachments);
+        if (is_array($attachments) && $count > 0) {
+            $data = $this->attach($attachments, $data);
+        }
         $ch = curl_init();
 
         curl_setopt_array($ch, array(
             CURLOPT_URL => $this->url,
             CURLOPT_POST => true,
-            CURLOPT_POSTFIELDS => $newData,
+            CURLOPT_POSTFIELDS => $data,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_HEADER => false,
             CURLOPT_SSL_VERIFYPEER => false
@@ -94,6 +97,10 @@ class ElasticTransport extends Transport
 
         $result = curl_exec($ch);
         curl_close($ch);
+
+        if ($count > 0) {
+            $this->deleteTempAttachmentFiles($data, $count);
+        }
 
         return $result;
     }
@@ -107,13 +114,16 @@ class ElasticTransport extends Transport
      */
     public function attach($attachments, $data)
     {
-        $filePath = storage_path('app\public');
         if (is_array($attachments) && count($attachments) > 0) {
             $i = 1;
             foreach ($attachments AS $attachment) {
+                $attachedFile = $attachment->getBody();
                 $fileName = $attachment->getFilename();
+                $ext = pathinfo($fileName, PATHINFO_EXTENSION);
+                $tempName = uniqid().'.' . $ext;
+                Storage::put($tempName, $attachedFile);
                 $type = $attachment->getContentType();
-                $attachedFilePath = $filePath . "\\" . $fileName;
+                $attachedFilePath = storage_path('app\\' . $tempName);
                 $data['file_' . $i] = new \CurlFile($attachedFilePath, $type, $fileName);
                 $i++;
             }
@@ -203,5 +213,13 @@ class ElasticTransport extends Transport
             return implode(',', array_keys($data));
         }
         return '';
+    }
+
+    protected function deleteTempAttachmentFiles($data, $count)
+    {
+        for ($i = 1; $i <= $count; $i++) {
+            $file = $data['file_' . $i]->name;
+            unlink($file);
+        }
     }
 }
