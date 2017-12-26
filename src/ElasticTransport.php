@@ -80,9 +80,10 @@ class ElasticTransport extends Transport
 
         ];
 
+
         $attachments = $message->getChildren();
-        $count = count($attachments);
-        if (is_array($attachments) && $count > 0) {
+        $attachmentCount = $this->checkAttachmentCount($attachments);
+        if ($attachmentCount > 0) {
             $data = $this->attach($attachments, $data);
         }
         $ch = curl_init();
@@ -99,8 +100,8 @@ class ElasticTransport extends Transport
         $result = curl_exec($ch);
         curl_close($ch);
 
-        if ($count > 0) {
-            $this->deleteTempAttachmentFiles($data, $count);
+        if ($attachmentCount > 0) {
+            $this->deleteTempAttachmentFiles($data, $attachmentCount);
         }
 
         return $result;
@@ -118,19 +119,38 @@ class ElasticTransport extends Transport
         if (is_array($attachments) && count($attachments) > 0) {
             $i = 1;
             foreach ($attachments AS $attachment) {
-                $attachedFile = $attachment->getBody();
-                $fileName = $attachment->getFilename();
-                $ext = pathinfo($fileName, PATHINFO_EXTENSION);
-                $tempName = uniqid() . '.' . $ext;
-                Storage::put($tempName, $attachedFile);
-                $type = $attachment->getContentType();
-                $attachedFilePath = storage_path('app\\' . $tempName);
-                $data['file_' . $i] = new \CurlFile($attachedFilePath, $type, $fileName);
-                $i++;
+                if ($attachment instanceof \Swift_Attachment) {
+                    $attachedFile = $attachment->getBody();
+                    $fileName = $attachment->getFilename();
+                    $ext = pathinfo($fileName, PATHINFO_EXTENSION);
+                    $tempName = uniqid() . '.' . $ext;
+                    Storage::put($tempName, $attachedFile);
+                    $type = $attachment->getContentType();
+                    $attachedFilePath = storage_path('app\\' . $tempName);
+                    $data['file_' . $i] = new \CurlFile($attachedFilePath, $type, $fileName);
+                    $i++;
+                }
             }
         }
 
         return $data;
+    }
+
+
+    /**
+     * Check Swift_Attachment count
+     * @param $attachments
+     * @return bool
+     */
+    public function checkAttachmentCount($attachments)
+    {
+        $count = 0;
+        foreach ($attachments AS $attachment) {
+            if ($attachment instanceof \Swift_Attachment) {
+                $count++;
+            }
+        }
+        return $count;
     }
 
 
