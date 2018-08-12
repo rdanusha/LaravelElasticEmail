@@ -4,6 +4,12 @@ A Laravel wrapper for Elastic Email
 
 Can send emails with multiple attachments
 
+## IMPORTANT
+### Laravel version
+**5.4** - Use Version 1.1.1
+
+**5.5** and forwards - Use version 1.2
+
 ### Installation ###
 
 * Step 1
