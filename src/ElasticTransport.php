@@ -64,7 +64,7 @@ class ElasticTransport extends Transport
         $this->beforeSendPerformed($message);
 
         $data = [
-            'api_key' => $this->key,
+            'apikey' => $this->key,
             'account' => $this->account,
             'msgTo' => $this->getEmailAddresses($message),
             'msgCC' => $this->getEmailAddresses($message, 'getCc'),
@@ -75,8 +75,8 @@ class ElasticTransport extends Transport
             'fromName' => $this->getFromAddress($message)['name'],
             'to' => $this->getEmailAddresses($message),
             'subject' => $message->getSubject(),
-            'body_html' => $message->getBody(),
-            'body_text' => $this->getText($message),
+            'bodyHtml' => $message->getBody(),
+            'bodyText' => $this->getText($message),
 
         ];
 
@@ -126,7 +126,7 @@ class ElasticTransport extends Transport
                     $tempName = uniqid() . '.' . $ext;
                     Storage::put($tempName, $attachedFile);
                     $type = $attachment->getContentType();
-                    $attachedFilePath = storage_path('app\\' . $tempName);
+                    $attachedFilePath = storage_path($tempName);
                     $data['file_' . $i] = new \CurlFile($attachedFilePath, $type, $fileName);
                     $i++;
                 }
@@ -205,8 +205,8 @@ class ElasticTransport extends Transport
     {
         for ($i = 1; $i <= $count; $i++) {
             $file = $data['file_' . $i]->name;
-            if (File::exists($file)) {
-                File::delete($file);
+            if (file_exists($file)) {
+                unlink($file);
             }
         }
     }
